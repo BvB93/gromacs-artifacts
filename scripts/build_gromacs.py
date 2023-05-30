@@ -54,7 +54,7 @@ def main(version: str, args: list[str]) -> None:
             config_args = [
                 "-DGMX_BUILD_OWN_FFTW=ON",
                 "-DGMX_FFT_LIBRARY=fftw3",
-                "-DGMX_MPI=ON",
+                "-DGMX_MPI=OFF",
                 "-DGMX_DOUBLE=ON",
                 "-DBUILD_SHARED_LIBS=OFF",
                 "-DGMX_PREFER_STATIC_LIBS=ON",
