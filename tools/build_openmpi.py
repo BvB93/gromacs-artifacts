@@ -69,7 +69,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(usage="python ./build_openmpi.py 4.1.5", description=__doc__)
     parser.add_argument("version", help="The library version")
     parser.add_argument(
-        "--prefix", metavar="prefix", help="install architecture-independent files in PREFIX"
+        "--prefix", dest="prefix", help="install architecture-independent files in PREFIX"
     )
     parser.add_argument("args", metavar="ARGS", default=[], nargs=argparse.REMAINDER,
                         help="Arguments to pass the 'configure' file")
