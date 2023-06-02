@@ -37,24 +37,35 @@ def configure(
     )
 
 
-def main(version: str, args: list[str]) -> None:
+@TimeLogger(f"Copy {PKG_NAME} license")
+def copy_license(
+    src_path: str | os.PathLike[str],
+    install_path: str | os.PathLike[str],
+) -> None:
+    """Copy the packages license."""
+    license_path = Path(install_path) / "licenses"
+    if not os.path.isdir(license_path):
+        os.mkdir(license_path)
+    shutil.copy2(
+        os.path.join(src_path, "COPYING"),
+        license_path / f"{PKG_NAME}_LICENSE.txt".upper(),
+    )
+
+
+def main(version: str, install_path: str | os.PathLike[str], args: list[str]) -> None:
     """Run the script."""
     parse_version(version)
     url = URL_TEMPLATE.format(version=version)
 
     src_path: None | Path = None
     build_path = Path(os.getcwd()) / "build"
-    install_path = Path(os.getcwd()) / "artifacts"
-    if install_path is not None:
-        shutil.rmtree(install_path, ignore_errors=True)
-
     try:
         src_path = download_and_unpack(url)
         try:
             config_args = [
                 "-DGMX_BUILD_OWN_FFTW=ON",
                 "-DGMX_FFT_LIBRARY=fftw3",
-                "-DGMX_MPI=OFF",
+                "-DGMX_MPI=ON",
                 "-DGMX_DOUBLE=ON",
                 "-DBUILD_SHARED_LIBS=OFF",
                 "-DGMX_PREFER_STATIC_LIBS=ON",
@@ -64,6 +75,7 @@ def main(version: str, args: list[str]) -> None:
         finally:
             read_config_log(build_path, os.path.join("CMakeFiles", "CMakeConfigureLog.yaml"))
         build(build_path)
+        copy_license(src_path, install_path)
     finally:
         shutil.rmtree(build_path, ignore_errors=True)
         if src_path is not None:
@@ -73,8 +85,11 @@ def main(version: str, args: list[str]) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(usage="python ./build_gromacs.py 2023.1", description=__doc__)
     parser.add_argument("version", help="The library version")
+    parser.add_argument(
+        "--prefix", metavar="prefix", help="install architecture-independent files in PREFIX"
+    )
     parser.add_argument("args", metavar="ARGS", default=[], nargs=argparse.REMAINDER,
                         help="Arguments to pass the 'configure' file")
 
     args = parser.parse_args()
-    main(args.version, args.args)
+    main(args.version, args.prefix, args.args)
