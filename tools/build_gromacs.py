@@ -54,6 +54,7 @@ def copy_license(
 
 def main(version: str, install_path: str | os.PathLike[str], args: list[str]) -> None:
     """Run the script."""
+    import pdb; pdb.set_trace()
     parse_version(version)
     url = URL_TEMPLATE.format(version=version)
 
@@ -85,11 +86,9 @@ def main(version: str, install_path: str | os.PathLike[str], args: list[str]) ->
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(usage="python ./build_gromacs.py 2023.1", description=__doc__)
     parser.add_argument("version", help="The library version")
-    parser.add_argument(
-        "--prefix", dest="prefix", help="install architecture-independent files in PREFIX"
-    )
     parser.add_argument("args", metavar="ARGS", default=[], nargs=argparse.REMAINDER,
                         help="Arguments to pass the 'configure' file")
 
     args = parser.parse_args()
-    main(args.version, args.prefix, args.args)
+    prefix = args.prefix[0][9:]
+    main(args.version, prefix, args.args)

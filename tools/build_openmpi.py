@@ -68,11 +68,9 @@ def main(version: str, install_path: str | os.PathLike[str], args: list[str]) ->
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(usage="python ./build_openmpi.py 4.1.5", description=__doc__)
     parser.add_argument("version", help="The library version")
-    parser.add_argument(
-        "--prefix", dest="prefix", help="install architecture-independent files in PREFIX"
-    )
     parser.add_argument("args", metavar="ARGS", default=[], nargs=argparse.REMAINDER,
                         help="Arguments to pass the 'configure' file")
 
     args = parser.parse_args()
+    prefix = args.prefix[0][9:]
     main(args.version, args.prefix, args.args)
