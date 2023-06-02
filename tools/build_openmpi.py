@@ -51,7 +51,7 @@ def main(version: str, install_path: str | os.PathLike[str], args: list[str]) ->
             config_args = [
                 "--enable-shared=no",
                 "--enable-static=yes",
-                f"--prefix={install_path}",
+                f"--prefix={os.fspath(install_path)}",
                 *args,
             ]
             configure(src_path, build_path, config_args)
