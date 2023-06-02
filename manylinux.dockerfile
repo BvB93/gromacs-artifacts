@@ -16,7 +16,5 @@ COPY . /workspace
 RUN python -m venv /workspace/venv
 RUN pip install git+https://github.com/nlesc-nano/nano-qmflows-manylinux@main
 RUN mkdir -p /workspace/artifacts
-RUN ls -l /workspace
-RUN ls -l /workspace/tools
-RUN python /workspace/tools/install_openmpi.py $OPENMPI_VERSION --prefix=/workspace/artifacts --libdir=/usr/local/lib
-RUN python /workspace/tools/install_gromacs.py $GROMACS_VERSION --prefix=/workspace/artifacts
+RUN python /workspace/tools/build_openmpi.py $OPENMPI_VERSION --prefix=/workspace/artifacts --libdir=/usr/local/lib
+RUN python /workspace/tools/build_gromacs.py $GROMACS_VERSION --prefix=/workspace/artifacts
