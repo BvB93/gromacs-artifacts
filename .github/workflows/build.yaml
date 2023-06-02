@@ -18,7 +18,7 @@ defaults:
 
 env:
   GROMACS_VERSION: "2023.1"
-  MPI_VERSION: "4.1.5"
+  OPENMPI_VERSION: "4.1.5"
 
 jobs:
   build_linux:
@@ -38,6 +38,9 @@ jobs:
       with:
         push: false
         file: manylinux.dockerfile
+        build-args: |
+          gromacs_version=${{env.GROMACS_VERSION}}
+          openmpi_version=${{env.OPENMPI_VERSION}}
 
     - uses: actions/upload-artifact@v3
       with:
