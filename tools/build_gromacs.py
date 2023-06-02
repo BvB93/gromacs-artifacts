@@ -54,7 +54,6 @@ def copy_license(
 
 def main(version: str, install_path: str | os.PathLike[str], args: list[str]) -> None:
     """Run the script."""
-    import pdb; pdb.set_trace()
     parse_version(version)
     url = URL_TEMPLATE.format(version=version)
 
@@ -90,5 +89,5 @@ if __name__ == "__main__":
                         help="Arguments to pass the 'configure' file")
 
     args = parser.parse_args()
-    prefix = args.prefix[0][9:]
+    prefix = args.args[0][9:]
     main(args.version, prefix, args.args)

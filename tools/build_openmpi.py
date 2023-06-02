@@ -72,5 +72,5 @@ if __name__ == "__main__":
                         help="Arguments to pass the 'configure' file")
 
     args = parser.parse_args()
-    prefix = args.prefix[0][9:]
-    main(args.version, args.prefix, args.args)
+    prefix = args.args[0][9:]
+    main(args.version, prefix, args.args)
