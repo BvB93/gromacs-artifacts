@@ -37,7 +37,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         push: false
-        file: manylinux.dockerfile
+        file: ${{github.workspace}}/manylinux.dockerfile
 
     - uses: actions/upload-artifact@v3
       with:
